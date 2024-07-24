@@ -10,8 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "antd": "^5.19.3",
+    "konva": "^9.3.14",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-konva": "^18.2.10",
+    "react-router": "^6.25.1",
+    "react-router-dom": "^6.25.1"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
