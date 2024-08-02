@@ -1,0 +1,26 @@
+.request-card{
+         background-color:#F8E8EE ;
+          margin: 30px;
+          padding: 15px;
+          border-radius: 15px;
+}
+.card-from-sections div{
+          margin: 10px;
+       
+}
+.card-from-sections label{
+          margin-right: 10px;
+          width: 100px;   
+}
+.card-from-sections p{
+          color:#686D76 ;
+}
+.card-image-section{
+          width: 45%;
+          height: 45%;
+}
+.card-image-label label{
+          margin-right: 10px;
+          width: 100px;   border-bottom: 1px solid; 
+          font-weight: bolder;    
+}

@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Stage, Layer, Line, Rect, Circle, Ellipse, Arrow } from 'react-konva';
+import React, { useState, useRef } from 'react';
+import { Stage, Layer, Line, Rect, Circle, Ellipse, Arrow, Text } from 'react-konva';
 import "./Sketch.css";
 
-const Sketch = () => {
+const Sketch = ({ onChange }) => {
   const [tool, setTool] = useState('pencil');
   const [lines, setLines] = useState([]);
   const [shapes, setShapes] = useState([]);
@@ -12,6 +12,11 @@ const Sketch = () => {
   const [eraserSize, setEraserSize] = useState(10);
   const [history, setHistory] = useState([]);
   const [redoStack, setRedoStack] = useState([]);
+  const [text, setText] = useState('');
+  const [showTextInput, setShowTextInput] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+  
+  const stageRef = useRef(null); // Add a reference to the stage
 
   const handleMouseDown = (e) => {
     const pos = e.target.getStage().getPointerPosition();
@@ -22,6 +27,16 @@ const Sketch = () => {
 
     if (tool === 'pencil' || tool === 'eraser') {
       setLines((prevLines) => [...prevLines, { tool, color: currentColor, size: currentSize, points: [pos.x, pos.y] }]);
+    } else if (tool === 'text') {
+      setShapes((prevShapes) => [...prevShapes, { id: shapes.length, tool, color: currentColor, size: currentSize, x: pos.x, y: pos.y, text }]);
+      setShowTextInput(false);
+    } else if (tool === 'select') {
+      const clickedOnShape = shapes.find(shape => shape.tool === 'text' && pos.x >= shape.x && pos.x <= shape.x + shape.size * 5 && pos.y >= shape.y && pos.y <= shape.y + shape.size * 5);
+      if (clickedOnShape) {
+        setSelectedId(clickedOnShape.id);
+      } else {
+        setSelectedId(null);
+      }
     } else {
       setShapes((prevShapes) => [...prevShapes, { tool, color: currentColor, size: currentSize, x: pos.x, y: pos.y, width: 0, height: 0, radius: 0, points: [pos.x, pos.y], sides: 3 }]);
     }
@@ -41,7 +56,6 @@ const Sketch = () => {
       setLines(lines.concat());
 
       if (tool === 'eraser') {
-        // Silgi çizgisinin herhangi bir şekille kesişip kesişmediğini kontrol et
         const newShapes = shapes.filter(shape => !isErased(shape, lastLine, eraserSize));
         setShapes(newShapes);
       }
@@ -81,6 +95,10 @@ const Sketch = () => {
     setIsDrawing(false);
     setHistory((prevHistory) => [...prevHistory, { lines: [...lines], shapes: [...shapes] }]);
     setRedoStack([]); // Clear the redo stack when a new action is taken
+
+    // Convert canvas to base64
+    const dataURL = stageRef.current.toDataURL();
+    onChange(dataURL); // Pass the base64 data to the parent component
   };
 
   const isErased = (shape, line, eraserSize) => {
@@ -108,6 +126,10 @@ const Sketch = () => {
       return (
         intersectPoint(shape.points[0], shape.points[1], x1, y1, x2, y2, eraserSize) ||
         intersectPoint(shape.points[2], shape.points[3], x1, y1, x2, y2, eraserSize)
+      );
+    } else if (shape.tool === 'text') {
+      return (
+        intersectRect(x1, y1, x2, y2, shape.x, shape.y, shape.size * 5, shape.size * 5)
       );
     }
     return false;
@@ -150,6 +172,30 @@ const Sketch = () => {
     setShapes(nextState.shapes);
   };
 
+  const handleTextChange = (e) => {
+    setText(e.target.value);
+  };
+
+  const handleAddText = () => {
+    setTool('text');
+    setShowTextInput(true);
+  };
+
+  const handleDeleteSelected = () => {
+    if (selectedId !== null) {
+      const newShapes = shapes.filter(shape => shape.id !== selectedId);
+      setShapes(newShapes);
+      setSelectedId(null);
+    }
+  };
+
+  const handleClearCanvas = () => {
+    setLines([]);
+    setShapes([]);
+    setHistory([]);
+    setRedoStack([]);
+  };
+
   return (
     <div>
       <div className='toolbar-section'>
@@ -161,6 +207,10 @@ const Sketch = () => {
         <button type="button" onClick={() => setTool('triangle')}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256"><path fill="#000000" d="M235.07 189.09L147.61 37.22a22.75 22.75 0 0 0-39.22 0L20.93 189.09a21.53 21.53 0 0 0 0 21.72A22.35 22.35 0 0 0 40.55 222h174.9a22.35 22.35 0 0 0 19.6-11.19a21.53 21.53 0 0 0 .02-21.72m-10.41 15.71a10.46 10.46 0 0 1-9.21 5.2H40.55a10.46 10.46 0 0 1-9.21-5.2a9.49 9.49 0 0 1 0-9.72l87.45-151.87a10.75 10.75 0 0 1 18.42 0l87.46 151.87a9.49 9.49 0 0 1-.01 9.72"/></svg></button>
         <button type="button" onClick={() => setTool('arrow')}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 15 15"><path fill="#000000" d="m7.5 1.5l.354-.354L7.5.793l-.354.353zm-.354.354l4 4l.708-.708l-4-4zm0-.708l-4 4l.708.708l4-4zM7 1.5V14h1V1.5z"/></svg></button>
         <button type="button" onClick={() => setTool('eraser')}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 21l-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21m9 0H7M5 11l9 9"/></svg></button>
+        <button type="button" onClick={handleAddText}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h16M9 20h6M12 4v16"/></svg></button>
+        <button type="button" onClick={() => setTool('select')}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h16v16H4z"/></svg></button>
+      
+        <button type="button" onClick={handleClearCanvas}>Temizle</button>
         <input type="color" onChange={(e) => setColor(e.target.value)} value={color} />
         {tool !== 'eraser' && (
           <input
@@ -184,8 +234,21 @@ const Sketch = () => {
         )}
         <button type="button" onClick={handleUndo}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="#000000" d="M8.06.56A8.05 8.05 0 0 0 1.24 4.2V1.55H0V5a1.16 1.16 0 0 0 1.15 1.14h3.44V4.9H2.27a6.79 6.79 0 0 1 5.79-3.1a6.48 6.48 0 0 1 6.7 6.2a6.48 6.48 0 0 1-6.7 6.2A6.48 6.48 0 0 1 1.36 8H.12a7.71 7.71 0 0 0 7.94 7.44A7.71 7.71 0 0 0 16 8A7.71 7.71 0 0 0 8.06.56"/></svg></button>
         <button type="button" onClick={handleRedo}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="#000000" d="M7.94.56a8.05 8.05 0 0 1 6.82 3.64V1.55H16V5a1.16 1.16 0 0 1-1.15 1.15h-3.44V4.9h2.32a6.79 6.79 0 0 0-5.79-3.1A6.48 6.48 0 0 0 1.24 8a6.48 6.48 0 0 0 6.7 6.2a6.48 6.48 0 0 0 6.7-6.2h1.24a7.71 7.71 0 0 1-7.94 7.44A7.71 7.71 0 0 1 0 8A7.71 7.71 0 0 1 7.94.56"/></svg></button>
+     {showTextInput && (
+        <div className='text-input'>
+          <input
+            type="text"
+            value={text}
+            onChange={handleTextChange}
+            placeholder="Enter text"
+          />
+          <button onClick={() => setShowTextInput(false)}>Metin Ekle</button>
+        </div>
+      )}   
       </div>
+      
       <Stage
+        ref={stageRef} // Attach the reference to the Stage component
         width={window.innerWidth}
         height={window.innerHeight}
         onMouseDown={handleMouseDown}
@@ -215,12 +278,25 @@ const Sketch = () => {
               return <Line key={i} points={points} closed stroke={currentColor} strokeWidth={currentSize} />;
             } else if (shape.tool === 'arrow') {
               return <Arrow key={i} points={shape.points} stroke={currentColor} strokeWidth={currentSize} />;
+            } else if (shape.tool === 'text') {
+              return (
+                <Text
+                  key={i}
+                  x={shape.x}
+                  y={shape.y}
+                  text={shape.text}
+                  fontSize={shape.size * 5}
+                  fill={currentColor}
+                  onClick={() => setSelectedId(shape.id)}
+                  stroke={selectedId === shape.id ? 'red' : 'none'}
+                />
+              );
             }
             return null;
           })}
         </Layer>
       </Stage>
-      <button type="button" className='save-btn'>Kaydet</button>
+     
     </div>
   );
 };

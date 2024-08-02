@@ -1,6 +1,6 @@
 .toolbar-section {
-  background-color: lightgrey;
-  width: 90%;
+  background-color: #546e7a;
+  width: max-content;
   height: 10vh;
   display: flex;
   align-items: center;
@@ -8,15 +8,4 @@
 }
 .toolbar-section button {
   margin: 5px;
-}
-.save-btn{
-  margin: 30px;
-  float: right;
-  border: none;
-  width: 80px;
-  height: 30px;
-  background-color: #21b15a;
-  color: white;
-  font-size: large;
-  border-radius: 5%;
 }

@@ -1,52 +1,58 @@
-.form {
-  border: 2px solid;
+.home-page-container{
+  
 }
-.first-section {
+.top-section{
   display: flex;
   flex-direction: row;
+  justify-content: space-evenly;
+  margin: 30px;
 }
-.labels label {
-  padding: 10px;
+.top-section div{
+
+}
+.top-section label{
+margin-right: 5px;
+}
+.top-section input{
+  border: none;  
   border-bottom: 1px solid;
-  border-right: 1px solid;
 }
 
-.labels label:nth-child(3) {
-  border: none;
-}
-
-.inputs input {
-  padding: 10px;
-  border-bottom: 1px solid;
-  border-right: 1px solid;
-}
-.inputs input:nth-child(3) {
-  border-bottom: none;
-}
-.labels,
-.inputs {
+.form-section{
   display: flex;
   flex-direction: column;
-
+  justify-content: space-evenly; 
 }
-.labels{
-          width: 30%;
-}
-.inputs{
-          width: 40%;
-}
-.form-logo {
+.form-section div div{
+  box-shadow: 10px 9px 10px -3px rgba(0,0,0,0.2);
   display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: xx-large;
-  color: #191970;
-  width: 50%;
+  flex-direction: column;
+margin-bottom: 15px;
+  margin-left: 25px;
+  margin-right: 25px;
 }
-textarea{
-          width: 99%;
-          border: none;
-          background-color: lightgrey;
-          height: 20vh;
+.form-section textarea{
+  height: 150px;
+border: none;
+
+}
+.form-section div span{
+  opacity: 60%;
+}
+.sketch-section-header{
+  margin: 50px;
+}
+.sketch-content{
+  margin-left: 25px;
+  margin-right: 25px;
+}.save-btn{
+  margin: 30px;
+  float: right;
+  border: none;
+  width: 80px;
+  height: 30px;
+  background-color: #21b15a;
+  color: white;
+  font-size: large;
+  border-radius: 5%;
 }
