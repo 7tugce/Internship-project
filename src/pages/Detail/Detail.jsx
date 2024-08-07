@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { REQUEST_ROUTE } from "../../routes";
 import { getRequestById } from "../../services/requestservice";
 import "./Detail.css"
+import { formatTextWithNewLines } from "../../helpers";
 const Detail = () => {
   const [request,setRequest]= useState("")
   const {id}= useParams()
@@ -29,19 +30,19 @@ const Detail = () => {
             <label className="form-elements">Role:</label> <p>{request.role}</p>
           </div>
           <div>
-            <label className="form-elements">Requirement:</label> <p>{request.requirement}</p>
+            <label className="form-elements">Requirement:</label> <p>{formatTextWithNewLines(request.requirement)}</p>
           </div>
           <div>
-            <label className="form-elements">History:</label> <p>{request.history}</p>
+            <label className="form-elements">History:</label> <p>{formatTextWithNewLines(request.history)}</p>
           </div>
           <div>
-            <label className="form-elements">Limitations:</label> <p>{request.limitations}</p>
+            <label className="form-elements">Limitations:</label> <p>{formatTextWithNewLines(request.limitations)}</p>
           </div>
           <div>
-            <label className="form-elements">Approach:</label> <p>{request.approach}</p>
+            <label className="form-elements">Approach:</label> <p>{formatTextWithNewLines(request.approach)}</p>
           </div>
           <div>
-            <label className="form-elements">Gains:</label> <p>{request.gains}</p>
+            <label className="form-elements">Gains:</label> <p>{formatTextWithNewLines(request.gains)}</p>
           </div>
         </div>
         <div className="card-image-section" />

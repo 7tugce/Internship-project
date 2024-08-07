@@ -27,12 +27,7 @@ const Requests = () => {
             date={request.date}
             submittedBy={request.submittedBy}
             role={request.role}
-            requirement={request.requirement}
-            history={request.history}
-            limitations={request.limitations}
-            approach={request.approach}
-            gains={request.gains}
-            sketch={request.sketch}
+          
           />
         ))}
       </ul>
