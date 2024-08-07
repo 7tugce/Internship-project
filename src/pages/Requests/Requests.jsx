@@ -22,6 +22,7 @@ const Requests = () => {
       <ul>
         {requests.map(request => (
           <RequestCard
+          id={request.id}
             key={request.id}
             date={request.date}
             submittedBy={request.submittedBy}
@@ -35,6 +36,7 @@ const Requests = () => {
           />
         ))}
       </ul>
+  
     </div>
   );
 };

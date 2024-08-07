@@ -1,16 +1,12 @@
 import React from "react";
 import "./RequestCard.css";
+import { Link } from "react-router-dom";
 
 const RequestCard = ({
   date,
   submittedBy,
-  role,
-  requirement,
-  history,
-  limitations,
-  approach,
-  gains,
-  sketch,
+  role,id,
+ 
 }) => {
   return (
     <div className="request-card">
@@ -24,27 +20,8 @@ const RequestCard = ({
         <div>
           <label>Role:</label> <p>{role}</p>
         </div>
-        <div>
-          <label>Requirement:</label> <p>{requirement}</p>
-        </div>
-        <div>
-          <label>History:</label> <p>{history}</p>
-        </div>
-        <div>
-          <label>Limitations:</label> <p>{limitations}</p>
-        </div>
-        <div>
-          <label>Approach:</label> <p>{approach}</p>
-        </div>
-        <div>
-          <label>Gains:</label> <p>{gains}</p>
-        </div>
-      </div>
-      <div className="card-image-section" />
-      <div>
-        <label>Sketch:</label>
-      </div>
-      <img src={sketch} alt="Sketch" />
+        </div> 
+       <Link to={`/request/${id}`}> <button className="request-detail-btn">Detay</button> </Link>
     </div>
   );
 };

@@ -56,3 +56,8 @@ border: none;
   font-size: large;
   border-radius: 5%;
 }
+.error{
+  border: none;
+  box-shadow: inset;
+  color: #ff4560 ;
+}

@@ -1,0 +1,9 @@
+.card-from-sections div label{
+          align-items: center;
+          display: flex;
+          flex-direction: row;
+          width: 200px;
+   } .form-elements{
+          width: 200px; 
+          margin-right: 30px;   
+   }

@@ -8,3 +8,6 @@ export const addRequest=(values)=>{
           return apiAxios.post("Requirements",values)
 }
 
+export const getRequestById=(id)=>{
+          return apiAxios.get(`Requirements/${id}`)
+}

@@ -3,10 +3,13 @@
           margin: 30px;
           padding: 15px;
           border-radius: 15px;
+          display: flex;
+justify-content: space-between;
 }
 .card-from-sections div{
-          margin: 10px;
-       
+       align-items: center;
+       display: flex;
+       flex-direction: row;
 }
 .card-from-sections label{
           margin-right: 10px;
@@ -15,12 +18,13 @@
 .card-from-sections p{
           color:#686D76 ;
 }
-.card-image-section{
-          width: 45%;
-          height: 45%;
-}
-.card-image-label label{
-          margin-right: 10px;
-          width: 100px;   border-bottom: 1px solid; 
-          font-weight: bolder;    
+.request-detail-btn{
+          width: 100px;
+          height: 30px;
+          background-color:#ffa07a ;
+          border: none;
+          border-radius: 5px;
+          margin-top: 30px;
+}.request-detail-btn:hover{
+       cursor: pointer;
 }

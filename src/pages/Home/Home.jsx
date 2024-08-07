@@ -71,17 +71,17 @@ const Home = () => {
               <div>
                 <label>Tarih:</label>
                 <Field type="date" name="date" />
-                <ErrorMessage name="date" component="div" className="error" />
+                <ErrorMessage name="date" component="p" className="error" />
               </div>
               <div>
                 <label>Gönderen Kişi:</label>
                 <Field type="text" name="submittedBy" />
-                <ErrorMessage name="submittedBy" component="div" className="error" />
+                <ErrorMessage name="submittedBy" component="p" className="error" />
               </div>
               <div>
                 <label>Unvan/Rol:</label>
                 <Field type="text" name="role" />
-                <ErrorMessage name="role" component="div" className="error" />
+                <ErrorMessage name="role" component="p" className="error" />
               </div>
             </div>
 
@@ -99,7 +99,7 @@ const Home = () => {
                     :
                   </label>
                   <Field as="textarea" name="requirement" />
-                  <ErrorMessage name="requirement" component="div" className="error" />
+                  <ErrorMessage name="requirement" component="p" className="error" />
                 </div>
                 <div>
                   <label>
@@ -110,7 +110,7 @@ const Home = () => {
                     <span>(Maddeler halinde şu anki durumu açıklayınız.)</span>:
                   </label>
                   <Field as="textarea" name="history" />
-                  <ErrorMessage name="history" component="div" className="error" />
+                  <ErrorMessage name="history" component="p" className="error" />
                 </div>
               </div>
               <div className="last-three-rows">
@@ -126,7 +126,7 @@ const Home = () => {
                     :
                   </label>
                   <Field as="textarea" name="limitations" />
-                  <ErrorMessage name="limitations" component="div" className="error" />
+                  <ErrorMessage name="limitations" component="p" className="error" />
                 </div>
                 <div>
                   <label>
@@ -140,7 +140,7 @@ const Home = () => {
                     :
                   </label>
                   <Field as="textarea" name="approach" />
-                  <ErrorMessage name="approach" component="div" className="error" />
+                  <ErrorMessage name="approach" component="p" className="error" />
                 </div>
                 <div>
                   <label>
@@ -153,7 +153,7 @@ const Home = () => {
                     </span>
                   </label>
                   <Field as="textarea" name="gains" />
-                  <ErrorMessage name="gains" component="div" className="error" />
+                  <ErrorMessage name="gains" component="p" className="error" />
                 </div>
               </div>
             </div>
